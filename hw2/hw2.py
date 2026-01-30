@@ -6,21 +6,25 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
+
 df = pd.read_csv('Auto.csv')
 
+# gather data into numpy arrays
 disp_data = df[['displacement']].to_numpy() 
 cylinder_data = df[['cylinders']].to_numpy()
 weight_data = df[['weight']].to_numpy()
 accel_data = df[['acceleration']].to_numpy()
-
 mpg_data = df[['mpg']].to_numpy()
 
+# split data into different training and testing sets
+# first split gets displacement and mpg data, the rest only split one dataset
 disp_train, disp_test, mpg_train, mpg_test = train_test_split(disp_data, mpg_data, test_size=0.4 )
 
 cylinder_train, cylinder_test, _, _ = train_test_split(cylinder_data, mpg_data, test_size=0.4 )
 weight_train, weight_test, _, _ = train_test_split(weight_data, mpg_data, test_size=0.4 )
 accel_train, accel_test, _, _ = train_test_split(accel_data, mpg_data, test_size=0.4 )
 
+# create and train models for each feature vs mpg
 disp_mpg_model = LinearRegression()
 disp_mpg_model.fit(disp_train, mpg_train)
 
@@ -33,6 +37,7 @@ weight_mpg_model.fit(weight_train, mpg_train)
 accel_mpg_model = LinearRegression()
 accel_mpg_model.fit(accel_train, mpg_train)
 
+# print slopes and intercepts
 print("Displacement vs MPG")
 print("slope:", disp_mpg_model.coef_[0])
 print("intercept:", disp_mpg_model.intercept_)
@@ -49,11 +54,6 @@ print("\nAcceleration vs MPG")
 print("slope:", accel_mpg_model.coef_[0])
 print("intercept:", accel_mpg_model.intercept_)
 
-#print("\nR^2 Scores:")
-#print("Displacement vs MPG:", disp_mpg_model.score(disp_test, mpg_test))
-#print("Cylinders vs MPG:", cylinder_mpg_model.score(cylinder_test, mpg_test))
-#print("Weight vs MPG:", weight_mpg_model.score(weight_test, mpg_test))
-#print("Acceleration vs MPG:", accel_mpg_model.score(accel_test, mpg_test))
 
 print("\nMSE Scores:")
 # Displacement vs MPG
