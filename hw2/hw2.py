@@ -6,6 +6,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
+import statsmodels.api as sm
+
 
 df = pd.read_csv('Auto.csv')
 
@@ -91,6 +93,23 @@ print("\nRanked MSE Scores (best to worst):")
 for rank, (model_name, mse) in enumerate(mse_scores, 1):
     print(f"{rank}. {model_name} MSE: {mse}")
 
+features = [
+    ("Displacement", disp_train),
+    ("Cylinders", cylinder_train),
+    ("Weight", weight_train),
+    ("Acceleration", accel_train)
+]
+
+print("\n--- Statistical Significance (t-tests) ---")
+for name, data in features:
+    # Add constant for intercept
+    X = sm.add_constant(data)
+    model = sm.OLS(mpg_train, X).fit()
+    
+    t_stat = model.tvalues[1]  # index 1 is the feature, index 0 is the constant
+    p_val = model.pvalues[1]
+    
+    print(f"{name:12} | t-stat: {t_stat:8.4f} | p-value: {p_val:.4e}")
 # Plot all regressions
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
