@@ -41,18 +41,22 @@ accel_mpg_model.fit(accel_train, mpg_train)
 print("Displacement vs MPG")
 print("slope:", disp_mpg_model.coef_[0])
 print("intercept:", disp_mpg_model.intercept_)
+print("r^2:", disp_mpg_model.score(disp_test, mpg_test))
 
 print("\nCylinders vs MPG")
 print("slope:", cylinder_mpg_model.coef_[0])
 print("intercept:", cylinder_mpg_model.intercept_)
+print("r^2:", cylinder_mpg_model.score(cylinder_test, mpg_test))
 
 print("\nWeight vs MPG")
 print("slope:", weight_mpg_model.coef_[0])
 print("intercept:", weight_mpg_model.intercept_)
+print("r^2:", weight_mpg_model.score(weight_test, mpg_test))
 
 print("\nAcceleration vs MPG")
 print("slope:", accel_mpg_model.coef_[0])
 print("intercept:", accel_mpg_model.intercept_)
+print("r^2:", accel_mpg_model.score(accel_test, mpg_test))
 
 
 print("\nMSE Scores:")
