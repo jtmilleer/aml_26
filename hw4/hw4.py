@@ -41,8 +41,8 @@ X_test_pca1 = pca1.transform(X_test_scaled)
 model = LinearRegression()
 model.fit(X_train_pca1, Y_train)
 
-print(f"MSE training using {m095} components: {mean_squared_error(Y_train, model.predict(X_train_pca1)):.4f}")
-print(f"MSE testing using {m095} components: {mean_squared_error(Y_test, model.predict(X_test_pca1)):.4f}")
+#print(f"MSE training using {m095} components: {mean_squared_error(Y_train, model.predict(X_train_pca1)):.4f}")
+#print(f"MSE testing using {m095} components: {mean_squared_error(Y_test, model.predict(X_test_pca1)):.4f}")
 
 mse_train_values = []
 mse_test_values = []
@@ -60,12 +60,20 @@ for i in range(1, X_train_scaled.shape[1] + 1):
     mse_train_values.append(mse_train)
     mse_test_values.append(mse_test)
 
-    print(f"Components: {i}, MSE Train: {mse_train:.4f}, MSE Test: {mse_test:.4f}")
+    #print(f"Components: {i}, MSE Train: {mse_train:.4f}, MSE Test: {mse_test:.4f}")
 
 
 mse_train_values = np.array(mse_train_values)
 mse_test_values = np.array(mse_test_values) 
-print(mse_train_values)
+#print(mse_train_values)
+
+print(f"--------MSE Values for Train and Test Sets as function of M----------")
+for i in range(len(mse_train_values)):
+    print(f"M: {i+1}, MSE Train: {mse_train_values[i]:.4f}, MSE Test: {mse_test_values[i]:.4f}")
+
+print(f"M: {m095}, MSE Train: {mse_train_values[m095-1]:.4f}, MSE Test: {mse_test_values[m095-1]:.4f}")
+print(f"M: 16, MSE Train: {mse_train_values[15]:.4f}, MSE Test: {mse_test_values[15]:.4f}")
+
 
 plt.figure(figsize=(10, 6))
 plt.plot(range(1, X_train_scaled.shape[1] + 1), mse_train_values, label='Train MSE', marker='o')
